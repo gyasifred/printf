@@ -62,3 +62,4 @@ int print_revstring(va_list args)
 	}
 	return (len);
 }
+

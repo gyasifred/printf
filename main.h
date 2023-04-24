@@ -24,4 +24,8 @@ int print_bin(va_list args);
 int print_rot13(va_list args);
 int print_revstring(va_list args);
 
+int print_X(va_list args);
+int print_x(va_list args);
+int print_o(va_list args);
+int print_u(va_list args);
 #endif /* MAIN_H */
