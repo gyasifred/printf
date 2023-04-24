@@ -19,6 +19,8 @@ int (*get_func(char x))(va_list)
 		{"d", print_integer},
 		{"i", print_integer},
 		{"b", print_bin},
+		{"R", print_rot13},
+		{"r", print_revstring},
 		{NULL, NULL}
 	};
 	while (arr[i].ok)
