@@ -53,3 +53,33 @@ int print_percent(va_list args)
 	}
 	return (*str);
 }
+/**
+  *print_integer - print integer values to stdout
+  *@args:string argument
+  *Return: return integer value to stdout
+  */
+int print_integer(va_list args)
+{
+	int a, divisor = 1, num = 0;
+	unsigned int n;
+
+	a = va_arg(args, int);
+	if (a < 0)
+	{
+		num +=  _putchar('-');
+		n = num * -1;
+	}
+	else
+	{
+		n = num;
+	}
+	while (n / divisor > 9)
+		divisor *= 10;
+	while (divisor != 0)
+	{
+		num += _putchar(n / divisor + '0');
+		n %= divisor;
+		divisor /= 10;
+	}
+	return (num);
+}

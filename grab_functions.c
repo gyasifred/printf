@@ -16,6 +16,8 @@ int (*get_func(char x))(va_list)
 		{"c", print_c},
 		{"s", print_s},
 		{"%", print_percent},
+		{"d", print_integer},
+		{"i", print_integer},
 		{NULL, NULL}
 	};
 	while (arr[i].ok)
