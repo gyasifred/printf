@@ -11,31 +11,22 @@
 
 int print_u(va_list args)
 {
-	int digits[20];
-	int args_digits = 0;
-	unsigned int num = va_arg(args, unsigned int);
-	int i;
+	int divisor = 1, num = 0;
+	unsigned int a;
 
-	if (num == 0)
+	a = va_arg(args, unsigned int);
+
+	while (a / divisor > 9)
+		divisor *= 10;
+
+	while (divisor != 0)
 	{
-		_putchar('0');
-		return (1);
+		num = num + _putchar(a / divisor + '0');
+		a = a % divisor;
+		divisor = divisor / 10;
 	}
-
-	while (num > 0)
-	{
-		digits[args_digits++] = num % 10;
-		num /= 10;
-	}
-
-	for (i = args_digits - 1; i >= 0; i--)
-	{
-		_putchar(digits[i] + '0');
-	}
-
-	return (args_digits);
+	return (num);
 }
-
 /**
  * print_o - prints an octal number
  * @args: the argument
