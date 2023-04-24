@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "main.h"
+#include <stdlib.h>
 
 /**
  * print_c - prints character
@@ -64,22 +65,59 @@ int print_integer(va_list args)
 	unsigned int n;
 
 	a = va_arg(args, int);
+
 	if (a < 0)
 	{
-		num +=  _putchar('-');
-		n = num * -1;
+		num = num + _putchar('-');
+		n = a * -1;
 	}
 	else
-	{
-		n = num;
-	}
+		n = a;
 	while (n / divisor > 9)
 		divisor *= 10;
+
 	while (divisor != 0)
 	{
-		num += _putchar(n / divisor + '0');
-		n %= divisor;
-		divisor /= 10;
+		num = num + _putchar(n / divisor + '0');
+		n = n % divisor;
+		divisor = divisor / 10;
 	}
 	return (num);
+}
+
+/**
+  *print_bin - Print integers in base 2 to stdout
+  *@arggs: string arguments
+  *Return: return base 2 of the integer
+  */
+int print_bin(va_list args)
+{
+	int i, j = 0;
+	int *arr;
+	unsigned int a = va_arg(args, unsigned int);
+	unsigned int tmp = a;
+
+	while (a / 2!= 0)
+	{
+		a /= 2;
+		j++;
+	}
+	j++;
+	arr = malloc(sizeof(unsigned int) * j);
+	if (arr == NULL)
+	{
+		free(arr);
+		return (0);
+	}
+	for (i = 0; i < j; i++)
+	{
+		arr[i] = tmp % 2;
+		tmp /= 2;
+	}
+	for (i = j - 1; i >= 0; i--)
+	{
+		_putchar(arr[i] + 48);
+	}
+	free(arr);
+	return (j);
 }
