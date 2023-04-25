@@ -105,25 +105,25 @@ int unsignedIntToHex(unsigned int num, char _case)
  */
 int print_S(va_list str)
 {
+	int i, len = 0;
 	char *string = va_arg(str, char*);
-	int len = 0;
 
 	if (string == NULL)
 		return (-1);
 
-	while (*string != '\0')
+	for (i = 0; string[i]; i++)
 	{
-		if (isprint(*string))
+		if ((string[i] < 32 && string[i] > 0) || string[i] >= 127)
 		{
-			_putchar(*string++);
-			len++;
+			len += _putchar('\\');
+			len += _putchar('x');
+			if (i < 16)
+				_putchar('0');
+			len += unsignedIntToHex(string[i], 'A');
 		}
 		else
 		{
-			_putchar('\\');
-			_putchar('x');
-			unsignedIntToHex(*string++, 'A');
-			len += 4;
+			len += _putchar(string[i]);
 		}
 	}
 	return (len);
