@@ -35,30 +35,36 @@ int print_u(va_list args)
 
 int print_o(va_list args)
 {
-	int digits[20];
-	int args_digits = 0;
-	int num = va_arg(args, int);
-	int i;
+	int i, len = 0;
+	int *arr;
+	unsigned int tmp;
+	unsigned int num = va_arg(args, unsigned int);
 
-	if (num == 0)
+	tmp = num;
+	while (num / 8 != 0)
 	{
-		_putchar('0');
-		args_digits++;
-	}
-	else
-	{
-		while (num != 0)
-	{
-		digits[args_digits++] = num % 8;
 		num /= 8;
+		len++;
 	}
-
-		for (i = args_digits - 1; i >= 0; i--)
-		{
-			_putchar(digits[i] + '0');
-		}
+	len++;
+	arr = malloc(sizeof(int) * len);
+	if (arr == NULL)
+	{
+		return (-1);
 	}
-	return (args_digits);
+	i = 0;
+	while (tmp != 0)
+	{
+		arr[i] = tmp % 8;
+		tmp /= 8;
+		i++;
+	}
+	for (i = len - 1; i >= 0; i--)
+	{
+		_putchar(arr[i] + '0');
+	}
+	free(arr);
+	return (len);
 }
 
 /**
