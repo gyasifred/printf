@@ -68,61 +68,35 @@ int print_o(va_list args)
 }
 
 /**
- * printxx - converts the character to hex
- *
- * @args: character argument
- * @casetype: th args case type
- * Return: the number of digits printed
+ * _print_hex - helper function to print a hex number recursively
+ * @n: the number to be printed
+ * @hex: the base of the hex number
+ * @alpha: Char 'A' to 'F' or 'a' to 'f'
+ * Return: the number of characters printed
  */
-int printxx(unsigned int args, int casetype)
+int _print_hex(unsigned int n, unsigned int hex, int alpha)
 {
-	int digits[20];
-	int args_digits = 0;
-	int i, num;
+	unsigned int i = n % hex;
+	unsigned int j = n / hex;
+	char c;
 
-	for (i = 0; args != 0; i++)
+	if (i > 10)
 	{
-		num = args % 16;
-		while (num != 0)
+		c = (i - 10) + alpha;
+	}
+	else
 	{
-		digits[args_digits++] = num % 16;
-		num /= 16;
+		c = i + '0';
 	}
-		args /= 16;
-	}
-
-	for (i = args_digits - 1; i >= 0; i--)
+	if (j == 0)
+		return (_putchar(c));
+	if (j < hex)
 	{
-		if (digits[i] < 10)
-		{
-			_putchar(digits[i] + '0');
-		}
-		else
-		{
-			if (casetype >= 1)
-			{
-			_putchar(digits[i] - 10 + 'A');
-			}
-			else
-			{
-				_putchar(digits[i] - 10 + 'a');
-			}
-		}
+		if (j > 10)
+			return (_putchar(j - 10 + alpha) + _putchar(c));
+		return (_putchar(j + '0') + _putchar(c));
 	}
-	return (args_digits);
-}
-
-/**
- * print_X - prints the uppercase hex
- * @args: the arg
- * Return: return the number of digits
- */
-int print_X(va_list args)
-{
-	unsigned int num = va_arg(args, unsigned int);
-	int j = printxx(num, 1);
-
-	return (j);
+	return (_print_hex(j, hex, alpha) + _putchar(c));
 }
 
 /**
@@ -130,10 +104,19 @@ int print_X(va_list args)
  * @args: character argument
  * Return: the number of digits printed
  */
+
 int print_x(va_list args)
 {
-	unsigned int num = va_arg(args, unsigned int);
-	int j = printxx(num, 0);
-
-	return (j);
+	return (_print_hex(va_arg(args, unsigned int), 16, 'a'));
 }
+/**
+ * print_X - prints the uppercase hex
+ * @args: the arg
+ * Return: return the number of digits
+ */
+
+int print_X(va_list args)
+{
+	return (_print_hex(va_arg(args, unsigned int), 16, 'A'));
+}
+
