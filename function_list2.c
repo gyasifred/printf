@@ -2,6 +2,7 @@
 #include <stdarg.h>
 #include "main.h"
 #include <stdlib.h>
+#include <ctype.h>
 
 /**
   *print_rot13 - prints the rot13'ed string
@@ -59,6 +60,71 @@ int print_revstring(va_list args)
 	{
 		len = len + _putchar(s[i]);
 		i--;
+	}
+	return (len);
+}
+
+/**
+ * unsignedIntToHex - prints unsigned int to hexadecimal.
+ * @num: number to print
+ * @_case: letter `a` on the case to print it (upper or lower)
+ * Return: number of characters printed
+ */
+int unsignedIntToHex(unsigned int num, char _case)
+{
+	unsigned int n = num;
+	int len = 0;
+	int remainder = 0;
+
+	if (num == 0)
+	{
+		_putchar('0');
+		return (1);
+	}
+	while (n > 0)
+	{
+		remainder = n % 16;
+		if (remainder < 10)
+		{
+			_putchar(remainder + '0');
+		}
+		else
+		{
+			_putchar(remainder - 10 + _case);
+		}
+		n /= 16;
+		len++;
+	}
+	return (len);
+}
+
+/**
+ * print_S - prints a string with a `S` (upper case) specifier
+ * @str: argument
+ * Return: number of characters printed
+ */
+int print_S(va_list str)
+{
+	char *string = va_arg(str, char*);
+	int len = 0;
+
+	if (string == NULL)
+		return (-1);
+
+	while (*string != '\0')
+	{
+		if (isprint(*string))
+		{
+			_putchar(*string++);
+			len++;
+		}
+		else
+		{
+			_putchar('\\');
+			_putchar('x');
+			unsignedIntToHex(*string++, 'A');
+			len += 4;
+		}
 	}
 	return (len);
 }

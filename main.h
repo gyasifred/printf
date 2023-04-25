@@ -23,7 +23,8 @@ int (*get_func(char x))(va_list args);
 int print_bin(va_list args);
 int print_rot13(va_list args);
 int print_revstring(va_list args);
-
+int unsignedIntToHex(unsigned int num, char _case);
+int print_S(va_list str);
 int print_X(va_list args);
 int print_x(va_list args);
 int print_o(va_list args);
