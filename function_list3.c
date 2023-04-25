@@ -44,9 +44,9 @@ int print_u(va_list args)
 
 int print_o(va_list args)
 {
-	int digits[20];
+	int digits[22];
 	int args_digits = 0;
-	int num = va_arg(args, int);
+	unsigned int num = va_arg(args, unsigned int);
 	int i;
 
 	if (num == 0)
@@ -57,10 +57,10 @@ int print_o(va_list args)
 	else
 	{
 		while (num != 0)
-	{
-		digits[args_digits++] = num % 8;
-		num /= 8;
-	}
+		{
+			digits[args_digits++] = num % 8;
+			num /= 8;
+		}
 
 		for (i = args_digits - 1; i >= 0; i--)
 		{
@@ -69,7 +69,6 @@ int print_o(va_list args)
 	}
 	return (args_digits);
 }
-
 /**
  * printxx - converts the character to hex
  *
@@ -77,9 +76,10 @@ int print_o(va_list args)
  * @casetype: th args case type
  * Return: the number of digits printed
  */
+
 int printxx(unsigned int args, int casetype)
 {
-	int digits[20];
+	int digits[8];
 	int args_digits = 0;
 	int i, num;
 
@@ -87,28 +87,32 @@ int printxx(unsigned int args, int casetype)
 	{
 		num = args % 16;
 		while (num != 0)
-	{
-		digits[args_digits++] = num % 16;
-		num /= 16;
-	}
-		args /= 16;
-	}
-
-	for (i = args_digits - 1; i >= 0; i--)
-	{
-		if (digits[i] < 10)
 		{
-			_putchar(digits[i] + '0');
+			digits[args_digits++] = num % 16;
+			num /= 16;
+		}
+	args /= 16;
+	}
+	for (i = 0; i < 8; i++)
+	{
+		if (i < (8 - args_digits))
+		{
+		_putchar('0');
 		}
 		else
 		{
-			if (casetype >= 1)
+			if (digits[7 - i] < 10)
 			{
-			_putchar(digits[i] - 10 + 'A');
+				_putchar(digits[7 - i] + '0');
 			}
 			else
 			{
-				_putchar(digits[i] - 10 + 'a');
+				casetype >= 1 ?
+					_putchar(digits[7 - i] - 10 +
+					'A')
+				:
+					_putchar(digits[7 - i] - 10 +
+					'a');
 			}
 		}
 	}
