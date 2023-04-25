@@ -72,29 +72,26 @@ int print_revstring(va_list args)
  */
 int unsignedIntToHex(unsigned int num, char _case)
 {
-	unsigned int n = num;
-	int len = 0;
-	int remainder = 0;
+	unsigned int n;
+	int i, j, remainder, len = 0;
+	char *num_hex;
 
-	if (num == 0)
+	for (n = num; n != 0; len++, n /= 16)
+	;
+
+	num_hex = malloc(len);
+	for (i = 0; num != 0; i++)
 	{
-		_putchar('0');
-		return (1);
-	}
-	while (n > 0)
-	{
-		remainder = n % 16;
+		remainder = num % 16;
 		if (remainder < 10)
-		{
-			_putchar(remainder + '0');
-		}
+			num_hex[i] = remainder + '0';
 		else
-		{
-			_putchar(remainder - 10 + _case);
-		}
-		n /= 16;
-		len++;
+			num_hex[i] = remainder - 10 + _case;
+		num = num / 16;
 	}
+	for (j = i - 1; j >= 0; j--)
+		_putchar(num_hex[j]);
+	free(num_hex);
 	return (len);
 }
 
