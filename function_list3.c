@@ -35,68 +35,92 @@ int print_u(va_list args)
 
 int print_o(va_list args)
 {
-	int i, len = 0;
-	int *arr;
-	unsigned int tmp;
+	int digits[22];
+	int args_digits = 0;
 	unsigned int num = va_arg(args, unsigned int);
+	int i;
 
-	tmp = num;
-	while (num / 8 != 0)
+	if (num == 0)
 	{
-		num /= 8;
-		len++;
-	}
-	len++;
-	arr = malloc(sizeof(int) * len);
-	if (arr == NULL)
-	{
-		return (-1);
-	}
-	i = 0;
-	while (tmp != 0)
-	{
-		arr[i] = tmp % 8;
-		tmp /= 8;
-		i++;
-	}
-	for (i = len - 1; i >= 0; i--)
-	{
-		_putchar(arr[i] + '0');
-	}
-	free(arr);
-	return (len);
-}
-
-/**
- * _print_hex - helper function to print a hex number recursively
- * @n: the number to be printed
- * @hex: the base of the hex number
- * @alpha: Char 'A' to 'F' or 'a' to 'f'
- * Return: the number of characters printed
- */
-int _print_hex(unsigned int n, unsigned int hex, int alpha)
-{
-	unsigned int i = n % hex;
-	unsigned int j = n / hex;
-	char c;
-
-	if (i > 10)
-	{
-		c = (i - 10) + alpha;
+		_putchar('0');
+		args_digits++;
 	}
 	else
 	{
-		c = i + '0';
+		while (num != 0)
+		{
+			digits[args_digits++] = num % 8;
+			num /= 8;
+		}
+
+		for (i = args_digits - 1; i >= 0; i--)
+		{
+			_putchar(digits[i] + '0');
+		}
 	}
-	if (j == 0)
-		return (_putchar(c));
-	if (j < hex)
+	return (args_digits);
+}
+/**
+ * printxx - converts the character to hex
+ *
+ * @args: character argument
+ * @casetype: th args case type
+ * Return: the number of digits printed
+ */
+
+int printxx(unsigned int args, int casetype)
+{
+	int digits[8];
+	int args_digits = 0;
+	int i, num;
+
+	for (i = 0; args != 0; i++)
 	{
-		if (j > 10)
-			return (_putchar(j - 10 + alpha) + _putchar(c));
-		return (_putchar(j + '0') + _putchar(c));
+		num = args % 16;
+		while (num != 0)
+		{
+			digits[args_digits++] = num % 16;
+			num /= 16;
+		}
+	args /= 16;
 	}
-	return (_print_hex(j, hex, alpha) + _putchar(c));
+	for (i = 0; i < 8; i++)
+	{
+		if (i < (8 - args_digits))
+		{
+		_putchar('0');
+		}
+		else
+		{
+			if (digits[7 - i] < 10)
+			{
+				_putchar(digits[7 - i] + '0');
+			}
+			else
+			{
+				casetype >= 1 ?
+					_putchar(digits[7 - i] - 10 +
+					'A')
+				:
+					_putchar(digits[7 - i] - 10 +
+					'a');
+			}
+		}
+	}
+	return (args_digits);
+}
+
+/**
+ * print_X - prints the uppercase hex
+ * @args: the arg
+ * Return: return the number of digits
+ */
+int print_X(va_list args)
+{
+	unsigned int num = va_arg(args, unsigned int);
+	int j = printxx(num, 1);
+
+	return (j);
 }
 
 /**
@@ -104,19 +128,10 @@ int _print_hex(unsigned int n, unsigned int hex, int alpha)
  * @args: character argument
  * Return: the number of digits printed
  */
-
 int print_x(va_list args)
 {
-	return (_print_hex(va_arg(args, unsigned int), 16, 'a'));
-}
-/**
- * print_X - prints the uppercase hex
- * @args: the arg
- * Return: return the number of digits
- */
+	unsigned int num = va_arg(args, unsigned int);
+	int j = printxx(num, 0);
 
-int print_X(va_list args)
-{
-	return (_print_hex(va_arg(args, unsigned int), 16, 'A'));
+	return (j);
 }
-
