@@ -109,6 +109,8 @@ int print_S(va_list str)
 	char *string = va_arg(str, char*);
 
 	if (string == NULL)
+		string = "(null)";
+	else if (*string == '\0')
 		return (-1);
 
 	for (i = 0; string[i]; i++)
